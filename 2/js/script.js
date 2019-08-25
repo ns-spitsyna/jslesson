@@ -1,13 +1,10 @@
-var num = 266219;
-var arrNum = num.toString().split(''); //Перевела в строку, разбила на массив
+let num = 266219;
+let arrNum = num.toString().split(''); //Перевела в строку, разбила на массив
 // Произведение чисел
 
-var result = arrNum.reduce(function (mult, current){
-		return mult*current;
-	});
-
+let result = arrNum.reduce((mult, current) => mult*current);
 
 // Возведение в степень
-var exponentiation = (result**3).toString().slice(0,2);
+let exponentiation = (result**3).toString().slice(0,2);
 	
 console.log(exponentiation);
