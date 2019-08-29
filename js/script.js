@@ -15,23 +15,6 @@ let showTypeOf = function(data){
 
 console.log('Типы данных: ' + ' ' + showTypeOf(money), showTypeOf(income), showTypeOf(deposit));
 
-// for (let i = 0; i < 2; i++) {
-// 	switch (i) {
-// 		case 0:
-// 			var question1 = prompt("Какие обязательные ежемесячные расходы у вас есть?", "asdfgh"); 
-// 			var costs1 = +prompt("Во сколько это обойдется?", "10000"); 
-// 			break;
-// 		case 1:
-// 			var question2 = prompt("Какие обязательные ежемесячные расходы у вас есть?", "lkjhgf"); 
-// 			var costs2 = +prompt("Во сколько это обойдется?", "5000"); 
-// 		break;
-// 		default:
-// 		break;
-// 	}
-	
-	
-// }
-// console.log(question1,question2,costs1,costs2);
 
 //Функция возвращает сумму всех расходов за месяц
 let summ;
@@ -58,8 +41,6 @@ function getExpensesMonth(costs1, costs2) {
 
 };
 let s = getExpensesMonth();
-
- //console.log('Сумма расходов:'+ ' ' + s);
 
 //Накопления за месяц (Доходы минус расходы)
 let budgetMonth;
