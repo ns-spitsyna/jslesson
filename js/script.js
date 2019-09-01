@@ -9,7 +9,7 @@ let addExpenses = prompt("Перечислите возможные расход
 let deposit = confirm("Есть ли у вас депозит в банке?"); 
 // console.log(deposit);
 
-let budgetMonth;
+
 let mission;
 let sum;
 let period = 12;
@@ -19,14 +19,15 @@ let question1,
 let start = function(){
 	 
 	 do {
-	 	money = prompt('Ваш месячный доход?', '50000'); // Доход за месяц
+	 	money = +prompt('Ваш месячный доход?', '50000'); // Доход за месяц
 	 	console.log('money: ' + ' ' + money);
 	 }
-	 while(isNaN(money) || money === null || money.length === 0 || !money.trim());
+	 while(!money);
+	 return money;
 };
 start();
 
-let showTypeOf = (data) => typeof (data);
+let showTypeOf = data => typeof (data);
 
 console.log('Типы данных: ' + ' ' + showTypeOf(money), showTypeOf(income), showTypeOf(deposit));
 
@@ -49,11 +50,11 @@ function getExpensesMonth() {
 
 		let costs;
 	 
-		while(isNaN(costs) || costs === null || costs.length === 0 || !costs.trim()){
-	 	costs = prompt('Во сколько это обойдется?', '5000'); 
+		while(!costs){
+	 	costs = +prompt('Во сколько это обойдется?', '5000'); 
 	 	console.log('costs: ' + ' ' + costs);
 	 }
-	summ += +costs;
+	summ += costs;
 	 	
 	}
 	return summ;
@@ -64,8 +65,9 @@ let expensesMonth = getExpensesMonth();
 //Накопления за месяц (Доходы минус расходы)
 
 function getAccumulatedMonth(){
-	budgetMonth = money - expensesMonth;
-	return budgetMonth;
+	let budgetMonth = money - expensesMonth;
+	return  budgetMonth;
+	
 };
 
 let accumulatedMonth = getAccumulatedMonth();
@@ -76,12 +78,8 @@ console.log('Накопления за месяц: ' + ' ' + accumulatedMonth);
 function getTargetMonth(mission = 10000000){
 	
 	sum = Math.ceil(mission/accumulatedMonth);
-	if (sum < 0){
-		console.log("Цель не будет достигнута");
-	} else {
-		console.log("Цель достигнута");
+	let y = sum < 0 ? console.log("Цель не будет достигнута") : console.log("Цель достигнута");
 
-	}
 	return sum;
 
 };
@@ -102,7 +100,7 @@ let getStatusIncome = function(budgetDay){
 		return "Средний уровень дохода"
 	} else if(budgetDay >= 0 && budgetDay < 300){
 		return "Низкий уровень дохода"
-	} else if(budgetDay < 0){
+	} else {
 		return "Что то пошло не так"
 	}
 }
