@@ -1,37 +1,50 @@
 'use strict';
 
-let money; // Доход за месяц
-let income = 'Фриланс'; // Доп доход
-//Расходы
-let addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую","asdfg,asdfgh,sdfgh"); 
-// console.log(addExpenses.split(', '));
+let money, // Доход за месяц
+	start = function(){
+		 
+		 do {
+		 	money = +prompt('Ваш месячный доход?', '50000'); // Доход за месяц
+		 	console.log('money: ' + ' ' + money);
+		 }
+		 while(!money);
+		 return money;
+	};
+	start();
+let appData = {
+	income: {}, // Доп доход
+	addIncome: [],
+	expenses: {}, // Расходы
+	addExpenses: [], // Массив с возможными расходами
+	deposit: false,
+	mission: 1000000,
+	period: 12,
+	asking: function(){
+		//Расходы
+		let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую','asdfg,asdfgh,sdfgh'); 
+		appData.addExpenses = addExpenses.toLowerCase().split(',');
+		appData.deposit = confirm('Есть ли у вас депозит в банке?'); 
+	}
 
-let deposit = confirm("Есть ли у вас депозит в банке?"); 
-// console.log(deposit);
+};
 
+	appData.budget = money;
+	appData.budgetDay = 0;
+ 	appData.budgetMonth = 0;
+ 	appData.expensesMonth = 0;
 
-let mission;
-let sum;
-let period = 12;
-let question1, 
+let sum,
+ 	question1, 
 	question2;
 
-let start = function(){
-	 
-	 do {
-	 	money = +prompt('Ваш месячный доход?', '50000'); // Доход за месяц
-	 	console.log('money: ' + ' ' + money);
-	 }
-	 while(!money);
-	 return money;
-};
-start();
 
-let showTypeOf = data => typeof (data);
 
-console.log('Типы данных: ' + ' ' + showTypeOf(money), showTypeOf(income), showTypeOf(deposit));
+// let showTypeOf = data => typeof (data);
+
+// console.log('Типы данных: ' + ' ' + showTypeOf(money), showTypeOf(appData.income), showTypeOf(appData.deposit));
 
 //Функция возвращает сумму всех расходов за месяц
+
 
 function getExpensesMonth() {	
 	let summ = 0;
@@ -52,7 +65,7 @@ function getExpensesMonth() {
 	 
 		while(!costs){
 	 	costs = +prompt('Во сколько это обойдется?', '5000'); 
-	 	console.log('costs: ' + ' ' + costs);
+	 	//console.log('costs: ' + ' ' + costs);
 	 }
 	summ += costs;
 	 	
@@ -60,60 +73,52 @@ function getExpensesMonth() {
 	return summ;
 };
 
-let expensesMonth = getExpensesMonth();
+appData.expensesMonth = getExpensesMonth();
 
 //Накопления за месяц (Доходы минус расходы)
-
+appData.accumulatedMonth = getAccumulatedMonth();
 function getAccumulatedMonth(){
-	let budgetMonth = money - expensesMonth;
+	let budgetMonth = money - appData.expensesMonth;
 	return  budgetMonth;
 	
 };
 
-let accumulatedMonth = getAccumulatedMonth();
-console.log('Накопления за месяц: ' + ' ' + accumulatedMonth);
+
+console.log('Накопления за месяц: ' + ' ' + appData.accumulatedMonth);
 
 //за какой период будет достигнута цель, зная результат месячного накопления
 
-function getTargetMonth(mission = 10000000){
+appData.targetMonth = getTargetMonth();
+function getTargetMonth(mission){
 	
-	sum = Math.ceil(mission/accumulatedMonth);
+	sum = Math.ceil(appData.mission/appData.accumulatedMonth);
 	let y = sum < 0 ? console.log("Цель не будет достигнута") : console.log("Цель достигнута");
 
 	return sum;
 
 };
 
-console.log('Cрок достижения цели (месяцы):'+ ' ' + getTargetMonth());
+console.log('Cрок достижения цели (месяцы):'+ ' ' + appData.targetMonth);
 
 
-let budgetDay = Math.floor(accumulatedMonth/30); //Бюджет на день
+appData.budgetDay = Math.floor(appData.accumulatedMonth/30); //Бюджет на день
 // console.log(budgetDay);
 
 let	balance = money%30; // Остаток от деления
 
-
-let getStatusIncome = function(budgetDay){
-	if (budgetDay >= 800) {
+appData.statusIncome = getStatusIncome();
+function getStatusIncome(){
+	if (appData.budgetDay >= 800) {
 		return "Высокий уровень дохода"
-	} else if(budgetDay >= 300 && budgetDay < 800){
+	} else if(appData.budgetDay >= 300 && appData.budgetDay < 800){
 		return "Средний уровень дохода"
-	} else if(budgetDay >= 0 && budgetDay < 300){
+	} else if(appData.budgetDay >= 0 && appData.budgetDay < 300){
 		return "Низкий уровень дохода"
 	} else {
 		return "Что то пошло не так"
 	}
-}
-console.log('Уровень дохода: ' + ' ' + getStatusIncome(budgetDay));
+};
+console.log('Уровень дохода: ' + ' ' + appData.statusIncome);
+console.log(appData);
 
 
-
-// console.log('Типы данных: ' + ' ' + typeof money, typeof income, typeof deposit);
-// console.log('Длина строки "Фриланс": ' + ' ' + income.length);
-// console.log('Период:'+ ' ' + period + ' ' +'месяцев\n' 
-// 			+ 'Цель: заработать'+' ' + mission + ' ' + 'рублей');
-// console.log('Дополнительные расходы:' + ' ' + addExpenses.toLowerCase().split(', ')); 	
-// console.log('Бюджет на день:' + ' ' + budgetDay + '\n' + 'Остаток от деления:' + ' ' + balance);
-
-// alert("Хочу спать!");
-// console.log("Дима, пойдем спать");
